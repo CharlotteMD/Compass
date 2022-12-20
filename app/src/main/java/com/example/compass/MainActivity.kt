@@ -13,11 +13,14 @@ import androidx.compose.ui.tooling.preview.Preview
 import com.example.compass.ui.theme.CompassTheme
 import android.Manifest.permission.*
 import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
+import com.example.compass.viewmodels.LocationViewModel
 import com.example.compass.views.WhenPermissionDenied
 import com.example.compass.views.WhenPermissionGranted
+import com.google.android.gms.location.LocationServices
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,7 +73,13 @@ fun Permissions() {
     if (allPermissionsRevoked) {
         WhenPermissionDenied()
     } else {
-        WhenPermissionGranted()
+        val currentContext = LocalContext.current
+
+        WhenPermissionGranted(
+            LocationViewModel(
+                LocationServices.getFusedLocationProviderClient(currentContext)
+            )
+        )
     }
 
 }
