@@ -16,7 +16,6 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.ui.platform.LocalLifecycleOwner
 import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
-import androidx.lifecycle.repeatOnLifecycle
 import com.example.compass.views.WhenPermissionDenied
 import com.example.compass.views.WhenPermissionGranted
 
@@ -66,10 +65,12 @@ fun Permissions() {
         }
     )
 
-    if (necessaryPermissions.allPermissionsGranted) {
-        WhenPermissionGranted()
-    } else {
+    val allPermissionsRevoked = necessaryPermissions.permissions.size == necessaryPermissions.revokedPermissions.size
+
+    if (allPermissionsRevoked) {
         WhenPermissionDenied()
+    } else {
+        WhenPermissionGranted()
     }
 
 }

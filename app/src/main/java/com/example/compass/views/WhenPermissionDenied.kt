@@ -5,5 +5,6 @@ import androidx.compose.runtime.Composable
 
 @Composable
 fun WhenPermissionDenied() {
-    Text("Denied")
+    Text("You must give permission to get your current location. " +
+            "Please enable this in your phone settings.")
 }
